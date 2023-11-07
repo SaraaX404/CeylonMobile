@@ -1,4 +1,4 @@
-# DOME Mobile App
+# CeylonGems Mobile App
 
 ## Technologies 
 
