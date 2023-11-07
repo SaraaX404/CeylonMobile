@@ -56,17 +56,27 @@ export default () => {
           </AspectRatio>
         </TouchableHighlight>
         <Stack p="4" space={3}>
-          <Box flexDirection="column">
+          <Box flexDirection="column" >
+            <Box flexDirection={'row'} justifyContent={'space-between'}>
             <Box flexDirection="row" alignItems={'center'}>
               <FontAwesomeIcon icon={faLocationDot} color={'red'} />
               <Text
                 ml={'1%'}
-                fontWeight={300}
-                fontSize={'14px'}
-                color={'background: rgba(20, 20, 43, 0.72);'}>
+                fontWeight={400}
+                fontSize={'18px'}
+                color={'background: rgba(20, 20, 43, 1);'}>
                 Sri Lanka
               </Text>
             </Box>
+            <Text
+                ml={'1%'}
+                fontWeight={300}
+                fontSize={'14px'}
+                color={'background: rgba(20, 20, 43, 0.72);'}>
+                Golden Ruby
+              </Text>
+            </Box>
+            
             <Box
               flexDirection={'row'}
               mt={'5%'}
@@ -119,7 +129,7 @@ export default () => {
                   borderWidth={1}
                   borderColor={'rgba(209, 213, 219, 1)'}
                   borderRadius={'6px'}>
-                  <Text color={'rgba(54, 39, 222, 1);'}>Invest</Text>
+                  <Text color={'rgba(54, 39, 222, 1);'}>Bid</Text>
                 </Button>
               </Box>
             </Box>

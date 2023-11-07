@@ -9,10 +9,11 @@ import {
   Button,
   Image,
   Progress,
-  Stack,
   Text,
   ScrollView,
 } from 'native-base';
+import React from 'react';
+import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 export default () => {
   return (
@@ -21,7 +22,7 @@ export default () => {
         <AspectRatio w="100%" ratio={16 / 9} flex={1.4}>
           <Image
             source={{
-              uri: 'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
+              uri: 'https://th.bing.com/th/id/R.4e77eba2912d796e25d5c824f5a8c415?rik=Fa3dl%2fIdhuzA5A&riu=http%3a%2f%2fwww.presentpush.com%2fwp-content%2fuploads%2f2012%2f03%2fame_gem.jpg&ehk=O3kpJOyKzLrfaLAXWBE0Vd7k1L5rxBJFSuKysWmaqr0%3d&risl=&pid=ImgRaw&r=0',
             }}
             alt="image"
           />
@@ -34,34 +35,9 @@ export default () => {
               fontSize={'30px'}
               color={'rgba(0, 0, 0, 1)'}
               mx={'4%'}>
-              Cozy Claremont Flip
+              Golden Ruby
             </Text>
-            <Box
-              flexDirection={'row'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              mx={'4%'}>
-                <FontAwesomeIcon icon={faBuilding} color={'rgba(235, 115, 115, 1)'} />
-              <Text
-                fontSize={'16px'}
-                color={'rgba(78, 75, 102, 1)'}
-                fontWeight={400}>
-                
-                Appartment complex
-              </Text>
-              <Text
-                fontSize={'16px'}
-                color={'rgba(78, 75, 102, 1)'}
-                fontWeight={400}>
-                •
-              </Text>
-              <Text
-                fontSize={'16px'}
-                color={'rgba(54, 39, 222, 1)'}
-                fontWeight={400}>
-                Long term investment
-              </Text>
-            </Box>
+        
 
             <Box
               backgroundColor={'#ffffff'}
@@ -76,7 +52,7 @@ export default () => {
                   color={'rgba(16, 16, 20, 1)'}
                   ml={'4%'}
                   mt={'2%'}>
-                  Opportunity details
+                  Bid details
                 </Text>
                 <Text
                   fontSize={'14px'}
@@ -84,7 +60,7 @@ export default () => {
                   color={'rgba(13, 138, 70, 1)'}
                   mr={'4%'}
                   mt={'4%'}>
-                  Pre-funding
+                  Open to Bid
                 </Text>
               </Box>
               <Box
@@ -97,7 +73,7 @@ export default () => {
                     fontSize={'13px'}
                     fontWeight={400}
                     color={'rgba(78, 75, 102, 1)'}>
-                    Total Funding required
+                    Starts from
                   </Text>
                   <Text
                     fontSize={'20px'}
@@ -111,7 +87,7 @@ export default () => {
                     fontSize={'13px'}
                     fontWeight={400}
                     color={'rgba(78, 75, 102, 1)'}>
-                    Remaining amount
+                    Hightest Bid
                   </Text>
                   <Text
                     fontSize={'20px'}
@@ -133,20 +109,6 @@ export default () => {
                 mx={'4%'}
                 mt={'6%'}
                 justifyContent={'space-between'}>
-                <Box flexDirection={'column'}>
-                  <Text
-                    fontSize={'14px'}
-                    fontWeight={400}
-                    color={'rgba(78, 75, 102, 1)'}>
-                    Projected ROI
-                  </Text>
-                  <Text
-                    fontSize={'20px'}
-                    fontWeight={400}
-                    color={'rgba(0, 0, 0, 1)'}>
-                    9-12%
-                  </Text>
-                </Box>
                 <Button
                   backgroundColor={'rgba(54, 39, 222, 1)'}
                   w="135px"
@@ -155,7 +117,7 @@ export default () => {
                   borderRadius={'8px'}
                   h="40px">
                   <Text fontSize={'16px'} color={'#FFFFFF'}>
-                    Invest
+                    Bid
                   </Text>
                 </Button>
               </Box>
@@ -174,31 +136,26 @@ export default () => {
                   fontWeight={400}
                   ml={'4%'}
                   mt={'5%'}>
-                  Property Details
+                  Stone Details
                 </Text>
                 <Box
                   flexDirection={'row'}
                   mx={'4%'}
                   mt={'3%'}
                   alignItems={'center'}
-                  justifyContent={'space-between'}>
+                  justifyContent={'flex-start'}>
                   <Text
                     fontSize={'16px'}
                     color={'rgba(78, 75, 102, 1)'}
                     fontWeight={400}>
-                    <FontAwesomeIcon icon={faCalendar} color={'rgba(78, 75, 102, 1)'} /> Built in 2013
+                    <FontAwesomeIcon icon={faLocationDot} color={'rgba(78, 75, 102, 1)'} /> Country : Sri Lanka
                   </Text>
                   <Text
                     fontSize={'16px'}
+                    ml={'5%'}
                     color={'rgba(78, 75, 102, 1)'}
                     fontWeight={400}>
-                    <FontAwesomeIcon icon={faBuilding} color={'rgba(78, 75, 102, 1)'} /> 2015 Units
-                  </Text>
-                  <Text
-                    fontSize={'16px'}
-                    color={'rgba(78, 75, 102, 1)'}
-                    fontWeight={400}>
-                    <FontAwesomeIcon icon={faSwimmingPool} color={'rgba(78, 75, 102, 1)'} /> Includes Pool
+                    <FontAwesomeIcon icon={faStar} color={'rgba(78, 75, 102, 1)'} /> Seller Raiting : 4.7
                   </Text>
                 </Box>
               </Box>
@@ -225,62 +182,6 @@ export default () => {
                   form, by injected humour, or randomised words which don't look
                   even slightly believable.
                 </Text>
-              </Box>
-              <Box mx={'4%'} borderTopWidth={1}
-                borderTopColor={'rgba(221, 221, 221, 1)'}>
-                <Text
-                  fontSize={'20px'}
-                  color={'rgba(0, 0, 0, 1)'}
-                  fontWeight={400}
-                  mt={'5%'}>
-                  Map
-                </Text>
-                <Box
-                  flexDirection={'row'}
-                  justifyContent={'space-between'}
-                  mt={'3%'}>
-                  <Text
-                    fontSize={'15px'}
-                    color={'rgba(78, 75, 102, 1)'}
-                    fontWeight={400}>
-                    <FontAwesomeIcon
-                      icon={faLocationDot}
-                      color={'rgba(229, 70, 70, 1)'}
-                    />{' '}
-                    San Antonio, TX
-                  </Text>
-                  <Text
-                    fontSize={'15px'}
-                    color={'rgba(78, 75, 102, 1)'}
-                    fontWeight={400}>
-                    13900 Mitten Blue Rd, 78717
-                  </Text>
-                </Box>
-                <Button
-                  mt={'10%'}
-                  w={'218px'}
-                  backgroundColor={'#ffffff'}
-                  borderWidth={1}
-                  borderColor={'rgba(35, 24, 153, 0.18)'}
-                  borderRadius={'6px'}
-                  h={'45px'}>
-                  <Box
-                    flexDirection={'row'}
-                    justifyContent={'center'}
-                    alignItems={'center'}>
-                    <FontAwesomeIcon
-                      icon={faLocationDot}
-                      color={'rgba(35, 24, 153, 1)'}
-                    />
-                    <Text
-                      ml={'5%'}
-                      fontSize={'16px'}
-                      color={'rgba(35, 24, 153, 1)'}
-                      fontWeight={400}>
-                      Open in Maps
-                    </Text>
-                  </Box>
-                </Button>
               </Box>
             </Box>
           </Box>
