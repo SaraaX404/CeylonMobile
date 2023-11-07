@@ -1,0 +1,1 @@
+export {default as InvestedCard} from './InvestedCard.component'

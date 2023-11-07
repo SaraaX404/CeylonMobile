@@ -1,0 +1,1 @@
+export {default as PropertyPage} from './PropertyDetails.component'
