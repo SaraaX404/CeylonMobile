@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {SplashPage, LoginPage, ProfilePage, PolicyPage, RegisterPage, PropertyPage} from './pages';
+import {SplashPage, LoginPage, ProfilePage, PolicyPage, RegisterPage, PropertyPage, BidComponent} from './pages';
 import {NativeBaseProvider} from 'native-base';
 import {Marketplace} from './pages/MarketplacePage';
 import {SettingsPage} from './pages/SettingsPage';
@@ -66,6 +66,14 @@ const App = () => {
           <Stack.Screen
             name="Property"
             component={PropertyPage}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="BidScreen"
+            component={BidComponent}
             options={{
               headerShown: false,
             }}

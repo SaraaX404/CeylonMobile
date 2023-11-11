@@ -12,7 +12,7 @@ import {
 import {faLocationDot} from '@fortawesome/free-solid-svg-icons/faLocationDot';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableHighlight } from 'react-native';
+import { GestureResponderEvent, TouchableHighlight } from 'react-native';
 import React from 'react';
 
 export default () => {
@@ -24,6 +24,10 @@ export default () => {
 
   const navigateDetails = ()=>{
     navigate('Property')
+  }
+
+  const navigateBid = ()=>{
+    navigate('BidScreen')
   }
 
   return (
@@ -127,6 +131,7 @@ export default () => {
                   height={'40px'}
                   backgroundColor={'#FFFFFF'}
                   borderWidth={1}
+                  onPress={navigateBid}
                   borderColor={'rgba(209, 213, 219, 1)'}
                   borderRadius={'6px'}>
                   <Text color={'rgba(54, 39, 222, 1);'}>Bid</Text>
