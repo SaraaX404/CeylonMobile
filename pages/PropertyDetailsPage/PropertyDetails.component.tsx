@@ -14,15 +14,37 @@ import {
 } from 'native-base';
 import React from 'react';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
+import { RouteProp } from '@react-navigation/native';
+import { useQuery } from 'react-query';
+import { GetAllPostsResponse } from '../../models/ProductModels';
+import { GetPostsById } from '../../services/ProductsService';
 
-export default () => {
+type RouterParams = {
+  Property: {
+    id: string;
+  };
+};
+
+type AppProps = {
+  route: RouteProp<RouterParams, 'Property'>;
+};
+
+export default (props:AppProps) => {
+
+
+  const {params:{id}} = props.route
+
+  const {data} = useQuery<GetAllPostsResponse>('details',()=> GetPostsById(id))
+
+
+
   return (
     <ScrollView flex={1}>
       <Box flex={1}>
         <AspectRatio w="100%" ratio={16 / 9} flex={1.4}>
           <Image
             source={{
-              uri: 'https://th.bing.com/th/id/R.4e77eba2912d796e25d5c824f5a8c415?rik=Fa3dl%2fIdhuzA5A&riu=http%3a%2f%2fwww.presentpush.com%2fwp-content%2fuploads%2f2012%2f03%2fame_gem.jpg&ehk=O3kpJOyKzLrfaLAXWBE0Vd7k1L5rxBJFSuKysWmaqr0%3d&risl=&pid=ImgRaw&r=0',
+              uri: `https://firebasestorage.googleapis.com/v0/b/ceylongems-7f695.appspot.com/o/${data?.photos[0].photo}?alt=media`,
             }}
             alt="image"
           />
@@ -35,7 +57,7 @@ export default () => {
               fontSize={'30px'}
               color={'rgba(0, 0, 0, 1)'}
               mx={'4%'}>
-              Golden Ruby
+              {data?.name}
             </Text>
         
 
@@ -79,7 +101,7 @@ export default () => {
                     fontSize={'20px'}
                     color={'rgba(0, 0, 0, 1)'}
                     fontWeight={400}>
-                    $560,000
+                    ${data?.start_price}
                   </Text>
                 </Box>
                 <Box flexDirection={'column'}>
@@ -93,7 +115,7 @@ export default () => {
                     fontSize={'20px'}
                     color={'rgba(0, 0, 0, 1)'}
                     fontWeight={400}>
-                    $205,000
+                    ${data?.highestPrice}
                   </Text>
                 </Box>
               </Box>
@@ -177,10 +199,7 @@ export default () => {
                   textAlign={'justify'}
                   color={'rgba(78, 75, 102, 1)'}
                   fontWeight={400}>
-                  There are many variations of passages of Lorem Ipsum
-                  available, but the majority have suffered alteration in some
-                  form, by injected humour, or randomised words which don't look
-                  even slightly believable.
+                  {data?.description}
                 </Text>
               </Box>
             </Box>

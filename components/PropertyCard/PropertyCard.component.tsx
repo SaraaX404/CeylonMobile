@@ -15,21 +15,36 @@ import { useNavigation } from '@react-navigation/native';
 import { GestureResponderEvent, TouchableHighlight } from 'react-native';
 import React from 'react';
 
-export default () => {
+type PropTypes = {
+  photo:string,
+  name:string,
+  price:number,
+  highestBid:number,
+  id:string
+}
+
+
+export default (props:PropTypes) => {
+
+  type Params = {
+    id?:string
+  }
+
   type Nav = {
-    navigate: (value: string) => void;
+    navigate: (value: string, {id}:Params) => void;
   };
 
   const {navigate} = useNavigation<Nav>();
 
   const navigateDetails = ()=>{
-    navigate('Property')
+    navigate('Property', {id:props.id})
   }
 
   const navigateBid = ()=>{
-    navigate('BidScreen')
+    navigate('BidScreen', {})
   }
 
+  
   return (
     <Box alignItems="center" mt={'5%'}>
       <Box
@@ -53,7 +68,7 @@ export default () => {
           <AspectRatio w="100%" ratio={16 / 9}>
             <Image
               source={{
-                uri: 'https://th.bing.com/th/id/R.4e77eba2912d796e25d5c824f5a8c415?rik=Fa3dl%2fIdhuzA5A&riu=http%3a%2f%2fwww.presentpush.com%2fwp-content%2fuploads%2f2012%2f03%2fame_gem.jpg&ehk=O3kpJOyKzLrfaLAXWBE0Vd7k1L5rxBJFSuKysWmaqr0%3d&risl=&pid=ImgRaw&r=0',
+                uri: `https://firebasestorage.googleapis.com/v0/b/ceylongems-7f695.appspot.com/o/${props.photo}?alt=media`,
               }}
               alt="image"
             />
@@ -77,7 +92,7 @@ export default () => {
                 fontWeight={300}
                 fontSize={'14px'}
                 color={'background: rgba(20, 20, 43, 0.72);'}>
-                Golden Ruby
+                {props.name}
               </Text>
             </Box>
             
@@ -96,7 +111,7 @@ export default () => {
                   fontSize={'20px'}
                   fontWeight={500}
                   color={'rgba(0, 0, 0, 1)'}>
-                  $5000
+                  ${props.price}
                 </Text>
               </Box>
               <Box flexDirection={'column'}>
@@ -110,7 +125,7 @@ export default () => {
                   fontSize={'20px'}
                   fontWeight={500}
                   color={'rgba(0, 0, 0, 1)'}>
-                  7000$
+                  {props.highestBid}$
                 </Text>
               </Box>
             </Box>

@@ -50,9 +50,8 @@ function App({navigation}: SplashScreenProps) {
   };
 
   return (
-    <ImageBackground
-      source={require('../../assets/Background_01.png')}
-      resizeMode="contain"
+    <Box
+     
       style={styles.backgroundContainer}>
       <Box style={styles.appContainer}>
         <Box alignItems="center" mt={'-12%'} style={{flex: 1}}>
@@ -63,7 +62,7 @@ function App({navigation}: SplashScreenProps) {
             source={require('../../assets/logo.jpg')}
             alt={'logo'}
             style={styles.imageContainer}
-            mt={-150}
+            mt={-50}
           />
         </Box>
       </Box>
@@ -95,7 +94,7 @@ function App({navigation}: SplashScreenProps) {
           </Text>
         </Button>
       </Box>
-    </ImageBackground>
+    </Box>
   );
 }
 
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     resizeMode: 'contain',
-    width: 200,
+    width: 400,
   },
 
   backgroundContainer: {

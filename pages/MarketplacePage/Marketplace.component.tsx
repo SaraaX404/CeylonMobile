@@ -3,12 +3,24 @@ import {ScrollView} from 'react-native';
 import {DefaultLayout} from '../../layouts';
 
 import {PropertyCard, InvestedCard} from '../../components';
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useQuery } from 'react-query';
+import { GetAllPostsResponse } from '../../models/ProductModels';
+import { GetPosts } from '../../services/ProductsService';
 
 const App = () => {
   const [selectedTab, setSelectedTab] = useState<'mp' | 'yi'>('mp');
+  const [posts, setPosts] = useState<GetAllPostsResponse[]>([])
+
+  const {data} = useQuery<GetAllPostsResponse[]>('posts', ()=> GetPosts())
+
+  useEffect(()=>{
+    if(data){
+      setPosts(data)
+    }
+  },[data])
   
   const selectTabMP = () => {
     setSelectedTab('mp');
@@ -121,10 +133,9 @@ const App = () => {
                 <Box mx={'6%'}>
                   {selectedTab == 'mp' ? (
                     <Box>
-                      <PropertyCard />
-                      <PropertyCard />
-                      <PropertyCard />
-                      <PropertyCard />
+                      {posts.map((x,i)=>(
+                          <PropertyCard key={i} id={x._id} name={x.name} photo={x.photos[0].photo} highestBid={x.highestPrice} price={x.start_price} />
+                      ))}
                     </Box>
                   ) : (
                     <Box flexDirection="column">

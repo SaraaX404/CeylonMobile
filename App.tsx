@@ -5,13 +5,19 @@ import {SplashPage, LoginPage, ProfilePage, PolicyPage, RegisterPage, PropertyPa
 import {NativeBaseProvider} from 'native-base';
 import {Marketplace} from './pages/MarketplacePage';
 import {SettingsPage} from './pages/SettingsPage';
+import { QueryClient,QueryClientProvider  } from 'react-query'
+import { AuthContextProvider } from './context';
 
 const Stack = createNativeStackNavigator();
+
+const client = new QueryClient()
 
 const App = () => {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
+      <QueryClientProvider client={client}>
+        <AuthContextProvider>
+        <NavigationContainer>
         <Stack.Navigator initialRouteName="Splash">
           <Stack.Screen
             name="Splash"
@@ -80,6 +86,10 @@ const App = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+        </AuthContextProvider>
+    
+      </QueryClientProvider>
+      
     </NativeBaseProvider>
   );
 };
