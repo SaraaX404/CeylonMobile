@@ -21,9 +21,51 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faLocationDot} from '@fortawesome/free-solid-svg-icons/faLocationDot';
 import {DefaultLayout} from '../../layouts';
 import {Keyboard} from 'react-native';
+import { GetAllPostsResponse } from '../../models/ProductModels';
+import { useMutation, useQuery } from 'react-query';
+import { GetPostsById } from '../../services/ProductsService';
+import { RouteProp, useNavigation } from '@react-navigation/native';
+import { CreateBidRequest } from '../../models/BidsModel';
+import { CreateBid } from '../../services/BidsService';
 
-function App() {
+type RouterParams = {
+  BidScreen: {
+    id: string;
+  };
+};
+
+type AppProps = {
+  route: RouteProp<RouterParams, 'BidScreen'>;
+};
+
+
+function App(props:AppProps) {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [price,setPrice] = useState<any>(0)
+
+  type Nav = {
+    navigate: (value: string) => void;
+  };
+
+  const {navigate} = useNavigation<Nav>();
+
+  const {params:{id}} = props.route
+
+  const {data} = useQuery<GetAllPostsResponse>('details',()=> GetPostsById(id))
+
+  const bidMutation = useMutation<boolean, Error, CreateBidRequest, unknown>(CreateBid);
+  
+  let bidData:CreateBidRequest= {
+    postID:id,
+    price:price
+  }
+
+  const makeBid = async()=>{
+    let res = await bidMutation.mutateAsync(bidData)
+    if(res){
+      navigate('Marketplace')
+    }
+  }
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -46,6 +88,9 @@ function App() {
     };
   }, []);
 
+  console.log(data)
+  console.log(`https://firebasestorage.googleapis.com/v0/b/ceylongems-7f695.appspot.com/o/${data?.photos[0].photo}?alt=media`)
+
   return (
     <DefaultLayout>
       <Box
@@ -59,13 +104,14 @@ function App() {
           flexDirection={'row'}
           alignItems={'center'}
           justifyContent={'space-evenly'}>
-          <AspectRatio w="100%" ratio={16 / 9} flex={1}>
-            <Image
-              source={{
-                uri: 'https://th.bing.com/th/id/R.4e77eba2912d796e25d5c824f5a8c415?rik=Fa3dl%2fIdhuzA5A&riu=http%3a%2f%2fwww.presentpush.com%2fwp-content%2fuploads%2f2012%2f03%2fame_gem.jpg&ehk=O3kpJOyKzLrfaLAXWBE0Vd7k1L5rxBJFSuKysWmaqr0%3d&risl=&pid=ImgRaw&r=0',
-              }}
-              alt="image"
-            />
+          <AspectRatio w="100%" ratio={16 / 9} flex={1} borderRadius={'lg'}>
+          <Image
+            borderRadius={20}
+            source={{
+              uri: `https://firebasestorage.googleapis.com/v0/b/ceylongems-7f695.appspot.com/o/${data?.photos[0].photo}?alt=media`,
+            }}
+            alt="image"
+          />
           </AspectRatio>
 
           <Box
@@ -88,54 +134,69 @@ function App() {
               fontWeight={300}
               fontSize={'14px'}
               color={'background: rgba(20, 20, 43, 0.72);'}>
-              Golden Ruby
+              {data?.name}
             </Text>
             <Text
               ml={'1%'}
               fontWeight={300}
               fontSize={'14px'}
               color={'background: rgba(20, 20, 43, 0.72);'}>
-              500$
+              {data?.start_price}$
             </Text>
           </Box>
         </Box>
         <Divider my="2%" />
         {!isKeyboardOpen && (
-          <Box flex={3}>
-            <Text ml={'5%'} fontSize={'18px'} color={'gray.700'}>
-              Seller Details
-            </Text>
-            <Box flexDirection={'row'} alignItems={'flex-start'} m={'5%'}>
-              <Box width={'30%'}>
-                <Text m="5%" fontSize={16}>
-                  Name
-                </Text>
-                <Text m="5%" fontSize={16}>
-                  Country
-                </Text>
-                <Text m="5%" fontSize={16}>
-                  Raiting
-                </Text>
-              </Box>
-              <Box width={'50%'}>
-                <Text m="5%" fontSize={16}>
-                  Kasun Kalhara
-                </Text>
-                <Text m="5%" fontSize={16}>
-                  Sri Lanka
-                </Text>
-                <Badge colorScheme={'success'} m="5%" fontSize={16}>
-                  4.5
-                </Badge>
-              </Box>
-            </Box>
-          </Box>
+           <Box
+           flex={3}
+           width={'100%'}
+           p={4}
+           borderRadius={8}
+           borderWidth={1}
+           borderColor="gray.200"
+           backgroundColor="white"
+           shadow={3}
+         >
+           <Text fontSize="xl" fontWeight="bold" mb={4} color="gray.700">
+             Seller Details
+           </Text>
+           <Box flexDirection="row" alignItems="center">
+             <Box flex={1}>
+               <Text fontSize={16} mb={2}>
+                 Name
+               </Text>
+               <Text fontSize={16} mb={2}>
+                 Country
+               </Text>
+               <Text fontSize={16} mb={2}>
+                 Rating
+               </Text>
+             </Box>
+             <Box flex={2}>
+               <Text fontSize={16} mb={2}>
+                 {data?.seller_id.first_name}
+               </Text>
+               <Text fontSize={16} mb={2}>
+                 {data?.seller_id.country}
+               </Text>
+               <Badge
+                 colorScheme="success"
+                 variant="subtle"
+                 fontSize={16}
+                 borderRadius={4}
+                 p={2}
+               >
+                 4.5
+               </Badge>
+             </Box>
+           </Box>
+         </Box>
         )}
 
         <Divider my="2%" />
         <Box flex={2} width={'100%'}>
-          <Input type="text" />
-          <Button mt={'2%'}>
+          <Input type="text" onChangeText={(e) => setPrice(e)}  />
+          <Button mt={'2%'} onPress={makeBid}>
             <Text>Bid</Text>
           </Button>
         </Box>

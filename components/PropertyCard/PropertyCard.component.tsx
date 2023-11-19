@@ -41,7 +41,7 @@ export default (props:PropTypes) => {
   }
 
   const navigateBid = ()=>{
-    navigate('BidScreen', {})
+    navigate('BidScreen', {id:props.id})
   }
 
   

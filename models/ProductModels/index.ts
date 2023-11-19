@@ -11,7 +11,7 @@ export type Post = {
     photos: Photo[];
     start_price: number;
     seller_id: {
-      name: string;
+      first_name: string;
       country: string;
     };
     fixed:boolean,

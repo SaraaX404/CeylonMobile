@@ -3,25 +3,34 @@ import {ScrollView} from 'react-native';
 import {DefaultLayout} from '../../layouts';
 
 import {PropertyCard, InvestedCard} from '../../components';
-import { useEffect, useState} from 'react';
-import { useNavigation } from '@react-navigation/native';
+import {useEffect, useState} from 'react';
 import React from 'react';
-import { useQuery } from 'react-query';
-import { GetAllPostsResponse } from '../../models/ProductModels';
-import { GetPosts } from '../../services/ProductsService';
+import {useQuery} from 'react-query';
+import {GetAllPostsResponse} from '../../models/ProductModels';
+import {GetPosts} from '../../services/ProductsService';
+import GridView from '../../components/GridView/GridView.component';
+import {GetBidsResponse} from '../../models/BidsModel';
+import {getBidsBySeller} from '../../services/BidsService';
+import {useUserContext} from '../../context';
 
 const App = () => {
   const [selectedTab, setSelectedTab] = useState<'mp' | 'yi'>('mp');
-  const [posts, setPosts] = useState<GetAllPostsResponse[]>([])
+  const [posts, setPosts] = useState<GetAllPostsResponse[]>([]);
+  const UserCTX = useUserContext();
 
-  const {data} = useQuery<GetAllPostsResponse[]>('posts', ()=> GetPosts())
+  const {data} = useQuery<GetAllPostsResponse[]>('posts', () => GetPosts());
 
-  useEffect(()=>{
-    if(data){
-      setPosts(data)
+  const {data: bidData, refetch} = useQuery<GetBidsResponse[], Error>(
+    'Bids',
+    () => getBidsBySeller(),
+  );
+
+  useEffect(() => {
+    if (data) {
+      setPosts(data);
     }
-  },[data])
-  
+  }, [data]);
+
   const selectTabMP = () => {
     setSelectedTab('mp');
   };
@@ -42,7 +51,7 @@ const App = () => {
               mb={'3%'}
               fontWeight={500}
               color={'#000000'}>
-              Welcome, Thathsara!
+              Welcome, {UserCTX.user?.username}!
             </Text>
           </Box>
           <Box flex={6}>
@@ -73,7 +82,7 @@ const App = () => {
                       Total Sells
                     </Text>
                     <Text fontSize={'25px'} fontWeight={400}>
-                      08 
+                      08
                     </Text>
                   </Box>
                   <Box flexDirection={'column'} ml={'auto'} mr={'3%'}>
@@ -95,60 +104,72 @@ const App = () => {
                   flex={1}
                   justifyContent={'space-between'}
                   mt={'3%'}
-                  borderBottomColor={'rgba(217, 219, 233, 1)'}
-                  >
-                    <Box  width={150} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
+                  borderBottomColor={'rgba(217, 219, 233, 1)'}>
+                  <Box
+                    width={150}
+                    flexDirection={'row'}
+                    justifyContent={'center'}
+                    alignItems={'center'}>
                     <Text
-                    onPress={selectTabMP}
-                    color={
-                      selectedTab == 'mp'
-                        ? 'rgba(54, 39, 222, 1);'
-                        : 'rgba(0, 0, 0, 1)'
-                    }
-                    fontWeight={500}
-                    pb={'3%'}
-                    
-                   
-                    fontSize={'20px'}>
-                    Market Place
-                  </Text>
-                    </Box>
-                    <Box  width={150} flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
-                  <Text
-                    onPress={selectTabYI}
-                    color={
-                      selectedTab == 'yi'
-                        ? 'rgba(54, 39, 222, 1);'
-                        : 'rgba(0, 0, 0, 1)'
-                    }
-                    fontWeight={500}
-                   
-                   
-                    pb={'3%'}
-                    fontSize={'20px'}>
-                    Your Stones
-                  </Text>
+                      onPress={selectTabMP}
+                      color={
+                        selectedTab == 'mp'
+                          ? 'rgba(54, 39, 222, 1);'
+                          : 'rgba(0, 0, 0, 1)'
+                      }
+                      fontWeight={500}
+                      pb={'3%'}
+                      fontSize={'20px'}>
+                      Market Place
+                    </Text>
+                  </Box>
+                  <Box
+                    width={150}
+                    flexDirection={'row'}
+                    justifyContent={'center'}
+                    alignItems={'center'}>
+                    <Text
+                      onPress={selectTabYI}
+                      color={
+                        selectedTab == 'yi'
+                          ? 'rgba(54, 39, 222, 1);'
+                          : 'rgba(0, 0, 0, 1)'
+                      }
+                      fontWeight={500}
+                      pb={'3%'}
+                      fontSize={'20px'}>
+                      Your Bids
+                    </Text>
                   </Box>
                 </Box>
                 <Box mx={'6%'}>
                   {selectedTab == 'mp' ? (
                     <Box>
-                      {posts.map((x,i)=>(
-                          <PropertyCard key={i} id={x._id} name={x.name} photo={x.photos[0].photo} highestBid={x.highestPrice} price={x.start_price} />
+                      {posts.map((x, i) => (
+                        <PropertyCard
+                          key={i}
+                          id={x._id}
+                          name={x.name}
+                          photo={x.photos[0].photo}
+                          highestBid={x.highestPrice}
+                          price={x.start_price}
+                        />
                       ))}
                     </Box>
                   ) : (
-                    <Box flexDirection="column">
-                      <Box flexDirection={'row'}>
-                      <InvestedCard/> <InvestedCard/>
-
-                    </Box>
-                    <Box flexDirection={'row'}>
-                      <InvestedCard/> <InvestedCard/>
-                    </Box>
-                    </Box>
-                    
-                    
+                    <GridView
+                      col={2}
+                      data={bidData || []}
+                      renderItem={(x: GetBidsResponse) => (
+                        <InvestedCard
+                          highestBid={x?.postID?.highestPrice}
+                          name={x?.postID?.name}
+                          photo={x?.postID?.photos[0]?.photo}
+                          price={x?.price}
+                          key={x?._id}
+                        />
+                      )}
+                    />
                   )}
                 </Box>
               </Box>

@@ -1,24 +1,29 @@
 import {
     AspectRatio,
     Box,
-    Image,
-    Stack,
     Text,
-    Center,
-    Progress,
     Button,
+    Image,
   } from 'native-base';
-  import {faLocationDot} from '@fortawesome/free-solid-svg-icons/faLocationDot';
-  import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-  import { ImageBackground } from 'react-native';
 import React from 'react';
 
+type PropTypes = {
+  photo:string, 
+  name:string,
+  price:number, 
+  highestBid:number
+}
   
-  export default () => {
+  export default (props:PropTypes) => {
+
+
+
+    console.log(props)
+
     return (
-      <Box  mt={'5%'} mr={'auto'}>
+      <Box  mt={'2%'} width={'80%'}>
         <Box
-          maxW="70%"
+          maxW="90%"
           rounded="lg"
           overflow="hidden"
           borderColor="coolGray.200"
@@ -36,23 +41,22 @@ import React from 'react';
           }}>
           <Box>
             <AspectRatio w="100%" ratio={16 / 9}>
-              <ImageBackground
-                source={{
-                  uri: 'https://th.bing.com/th/id/R.4e77eba2912d796e25d5c824f5a8c415?rik=Fa3dl%2fIdhuzA5A&riu=http%3a%2f%2fwww.presentpush.com%2fwp-content%2fuploads%2f2012%2f03%2fame_gem.jpg&ehk=O3kpJOyKzLrfaLAXWBE0Vd7k1L5rxBJFSuKysWmaqr0%3d&risl=&pid=ImgRaw&r=0',
-                }}
-                alt="image"
-              >
-              </ImageBackground>
+            <Image
+              source={{
+                uri: `https://firebasestorage.googleapis.com/v0/b/ceylongems-7f695.appspot.com/o/${props.photo}?alt=media`,
+              }}
+              alt="image"
+            />
      
             </AspectRatio>
           </Box>
-          <Box flexDirection={'row'} justifyContent={'space-between'} mx={'3%'} mt={'4%'}>
+          <Box flexDirection={'row'} justifyContent={'space-between'} mx={'2%'} mt={'4%'}>
                 <Box flexDirection={'column'}>
                     <Text fontWeight={400} fontSize={'12px'} color={'rgba(78, 75, 102, 1)'}>
                     Bidded Amout
                     </Text>
                     <Text fontWeight={500} fontSize={'13px'} color={'rgba(0, 0, 0, 1)'}>
-                    $3000
+                    ${props.price}
                     </Text>
                 </Box>
                 <Box flexDirection={'column'}>
@@ -60,7 +64,7 @@ import React from 'react';
                     Highest Bid
                     </Text>
                     <Text fontWeight={500} fontSize={'13px'} color={'rgba(0, 0, 0, 1)'}>
-                    $4500
+                    ${props.highestBid}
                     </Text>
                 </Box>
               </Box>
